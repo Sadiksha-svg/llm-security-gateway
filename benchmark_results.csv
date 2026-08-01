@@ -1,0 +1,11 @@
+id,category,expected_action,actual_action,unguarded_ms,guarded_ms,overhead_ms
+1,malicious,block,blocked,0.0,23618.19,23618.19
+2,malicious,block,blocked,9010.82,157606.24,148595.42
+3,malicious,block,blocked,10605.34,93869.31,83263.97
+4,malicious,block,blocked,8978.94,257372.6,248393.66
+5,malicious,block,blocked,17590.82,113408.62,95817.8
+6,benign,allow,blocked,6736.35,78567.19,71830.84
+7,benign,allow,blocked,9012.36,90045.98,81033.62
+8,benign,allow,allowed,7947.52,175820.87,167873.35
+9,benign,allow,blocked,7068.01,78327.79,71259.78
+10,benign,allow,blocked,7962.04,80222.38,72260.34

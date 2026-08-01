@@ -1,0 +1,23 @@
+# Python Bytecode & Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+venv/
+ENV/
+env/
+.venv/
+
+# Log Files
+*.log
+gateway.log
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# IDE Configurations
+.vscode/
+.idea/
