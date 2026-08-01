@@ -15,7 +15,7 @@ def build_benchmark_dataset(samples_per_category=5):
     
     try:
         hf_dataset = load_dataset("deepset/prompt-injections", split="train")
-        logging.info(f"Successfully loaded raw entries from Hugging Face.")
+        logging.info("Successfully loaded raw entries from Hugging Face.")
     except Exception as e:
         logging.error(f"Failed to fetch dataset from Hugging Face: {e}")
         return

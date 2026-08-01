@@ -28,7 +28,7 @@ logger.addHandler(console_handler)
 app = FastAPI(
     title="Localized AI Security Gateway Proxy",
     description="Asynchronous reverse-proxy integrating NVIDIA NeMo Guardrails with Llama 3 via Ollama.",
-    version="1.4.0"
+    version="1.5.0"
 )
 
 # 3. Initialize NeMo Engine
@@ -91,10 +91,11 @@ async def chat_guarded(payload: PromptPayload):
         
         output_text = res.get("content", "") if isinstance(res, dict) else str(res)
 
+        # Explicit refusal keywords (removed ambiguous terms like "yes")
         refusal_keywords = [
             "security alert", "sorry", "cannot fulfill", "cannot process", 
             "violates security", "cannot assist", "cannot comply", "i can't", 
-            "i cannot", "blocked", "unauthorized", "yes"
+            "i cannot", "blocked", "unauthorized"
         ]
 
         if any(keyword in output_text.lower() for keyword in refusal_keywords):

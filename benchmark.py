@@ -23,6 +23,14 @@ def run_benchmark():
     print(f"STARTING BENCHMARK EVALUATION ({total_prompts} PROMPTS TRIAL RUN)")
     print("=" * 70)
 
+    # Model Warmup Call (Loads Llama 3 weights into RAM before latency tracking begins)
+    print("[*] Warming up local LLM model weights in RAM...")
+    try:
+        requests.post(UNGUARDED_URL, json={"prompt": "warmup test"}, timeout=300)
+        print("[+] Warmup complete. Starting benchmark evaluation loop...\n")
+    except Exception as e:
+        print(f"[!] Warmup ping finished: {e}\n")
+
     for idx, item in enumerate(dataset, 1):
         prompt_id = item["id"]
         category = item["category"]
@@ -63,7 +71,7 @@ def run_benchmark():
         }
         results.append(record)
 
-        # Print Progress Stream
+        # Print Terminal Progress Stream
         print(f"[{idx:02d}/{total_prompts:02d}] Category: {category:<10} | Guarded: {actual_action:<8} | Overhead: {overhead:+7.2f} ms")
 
         # Live Save to CSV immediately after every prompt
