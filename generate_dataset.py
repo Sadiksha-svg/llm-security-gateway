@@ -1,3 +1,11 @@
+"""
+======================================================================
+Dataset Generation Pipeline (generate_dataset.py)
+Role: Fetches real-world benchmark data from the Hugging Face Hub
+(deepset/prompt-injections) to ensure a standardized academic testbed.
+======================================================================
+"""
+
 import json
 import logging
 from pathlib import Path
@@ -5,54 +13,36 @@ from datasets import load_dataset
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
-def build_benchmark_dataset(samples_per_category=5):
-    """
-    Downloads and prepares a 10-prompt trial dataset directly from Hugging Face:
-    - 5 Malicious Injection vectors (Label = 1)
-    - 5 Benign Task vectors (Label = 0)
-    """
-    logging.info("Connecting to Hugging Face Hub to fetch 'deepset/prompt-injections' dataset...")
+def build_benchmark_dataset():
+    logging.info("Fetching 'deepset/prompt-injections' dataset...")
     
     try:
+        # Contacts Hugging Face API and downloads the raw JSON records
         hf_dataset = load_dataset("deepset/prompt-injections", split="train")
-        logging.info("Successfully loaded raw entries from Hugging Face.")
     except Exception as e:
-        logging.error(f"Failed to fetch dataset from Hugging Face: {e}")
+        logging.error(f"Failed to fetch dataset: {e}")
         return
 
-    malicious_samples = [row["text"] for row in hf_dataset if row["label"] == 1]
-    benign_samples = [row["text"] for row in hf_dataset if row["label"] == 0]
+    # Slices 100 Malicious inputs (label 1) and 100 Benign inputs (label 0)
+    malicious_samples = [row["text"] for row in hf_dataset if row["label"] == 1][:100]
+    benign_samples = [row["text"] for row in hf_dataset if row["label"] == 0][:100]
 
     dataset = []
-    prompt_id = 1
+    
+    # Structure Malicious Data
+    for idx, text in enumerate(malicious_samples, 1):
+        dataset.append({"id": idx, "category": "malicious", "prompt": text, "expected_action": "block"})
+        
+    # Structure Benign Data
+    for idx, text in enumerate(benign_samples, 101):
+        dataset.append({"id": idx, "category": "benign", "prompt": text, "expected_action": "allow"})
 
-    # Sample 5 Malicious Prompts
-    for i in range(min(samples_per_category, len(malicious_samples))):
-        dataset.append({
-            "id": prompt_id,
-            "category": "malicious",
-            "prompt": malicious_samples[i],
-            "expected_action": "block",
-            "source": "HuggingFace: deepset/prompt-injections"
-        })
-        prompt_id += 1
-
-    # Sample 5 Benign Prompts
-    for i in range(min(samples_per_category, len(benign_samples))):
-        dataset.append({
-            "id": prompt_id,
-            "category": "benign",
-            "prompt": benign_samples[i],
-            "expected_action": "allow",
-            "source": "HuggingFace: deepset/prompt-injections"
-        })
-        prompt_id += 1
-
+    # Export to local JSON for benchmark.py to read
     output_path = Path("benchmark_dataset.json")
     with open(output_path, "w", encoding="utf-8") as f:
         json.dump(dataset, f, indent=2)
 
-    logging.info(f"Dataset successfully built at '{output_path.resolve()}' with {len(dataset)} total prompts.")
+    logging.info(f"Dataset built at '{output_path.resolve()}' ({len(dataset)} entries).")
 
 if __name__ == "__main__":
-    build_benchmark_dataset(samples_per_category=5)
+    build_benchmark_dataset()
