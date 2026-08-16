@@ -1,6 +1,6 @@
 # =====================================================================
 # NVIDIA NeMo Guardrails Configuration (config.yml)
-# Role: Defines model bindings, parameters, and classifier calibration.
+# Defines model bindings, parameters, and classifier calibration.
 # =====================================================================
 
 models:
@@ -16,7 +16,7 @@ models:
 rails:
   input:
     flows:
-      # Activates zero-shot semantic input checking before text generation
+      # Activate zero-shot semantic input checking before text generation
       - self check input
 
 prompts:
