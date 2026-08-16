@@ -1,7 +1,7 @@
 """
 ======================================================================
-Localized AI Security Gateway Proxy (main.py)
-Role: Asynchronous FastAPI reverse-proxy enforcing NeMo Guardrails on 
+Localized AI Security Gateway API (main.py)
+Role: Asynchronous FastAPI reverse-proxy enforces NeMo Guardrails on 
 local Llama 3 execution with extended 300s socket timeouts.
 ======================================================================
 """
@@ -13,7 +13,7 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
 from nemoguardrails import RailsConfig, LLMRails
 
-# Configure Industry-Standard Audit Logging
+# Industry-Standard Audit Logging Configuration
 logging.basicConfig(
     level=logging.INFO, 
     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
