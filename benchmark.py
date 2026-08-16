@@ -1,7 +1,7 @@
 """
 ======================================================================
 Automated Evaluation Suite (benchmark.py)
-Role: Executes sequential A/B testing with extended 300s HTTP timeouts
+Executes sequential A/B testing with extended 300s HTTP timeouts
 and real-time CSV result stream persistence.
 ======================================================================
 """
