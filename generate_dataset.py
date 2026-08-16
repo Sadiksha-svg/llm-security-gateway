@@ -1,8 +1,8 @@
 """
 ======================================================================
 Dataset Generation Pipeline (generate_dataset.py)
-Role: Fetches real-world benchmark data from the Hugging Face Hub
-(deepset/prompt-injections) to ensure a standardized academic testbed.
+Fetches real-world benchmark data from the Hugging Face Hub
+(deepset/prompt-injections) to save it in json objects in a file.
 ======================================================================
 """
 
