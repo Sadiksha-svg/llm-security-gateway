@@ -1,6 +1,6 @@
 # =====================================================================
 # Colang Security Policies (rails.co)
-# Role: Defines deterministic token output when an attack is flagged.
+# Defines deterministic token output when an attack is flagged.
 # =====================================================================
 
 # When NeMo's 'self check input' detects an attack, it triggers this refusal.
